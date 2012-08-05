@@ -1,0 +1,30 @@
+{
+  "name": "leaky",
+  "version": "0.0.1",
+  "description": "Error when a variable leak to the global scope",
+  "main": "leaky.js",
+  "scripts": {
+    "test": "node test/all.js"
+  },
+  "keywords": [
+    "leak"
+  ],
+  "author": "David Björklund",
+  "license": "MIT",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "esprima": "~0.9.9"
+  },
+  "devDependencies": {
+    "tap": "~0.3.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kesla/node-leaky.git"
+  },
+  "scripts": {
+    "test": "./node_modules/tap/bin/tap.js test/*.js"
+  }
+}
