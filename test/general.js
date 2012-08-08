@@ -2,26 +2,32 @@ var leaky = require('../leaky');
 
 var test = require("tap").test;
 
-test('Test', function(t) {
+test('common #1', function(t) {
   var source = '(' + function() {
     var a = 123;
   } + ')';
   var err = leaky(source);
   t.equal(err, undefined);
+  t.end();
+});
 
-  source = '(' + function() {
+test('common #2', function(t) {
+  var source = '(' + function() {
     a = 123;
   } + ')';
-  err = leaky(source);
+  var err = leaky(source);
   t.ok(err instanceof leaky.LeakError, 'err should be a LeakError');
   t.equal(err.line, 2);
   t.equal(err.column, 4);
+  t.end();
+});
 
-  source = '(' + function() {
+test('common #3', function(t) {
+  var source = '(' + function() {
     a = 123;
     var a;
   } + ')';
-  err = leaky(source);
+  var err = leaky(source);
   t.equal(err, undefined);
 
   t.end();

@@ -1,6 +1,6 @@
 var esprima = require('esprima');
 
-// copied from https://github.com/substack/node-syntax-error
+// LeakError copied from https://github.com/substack/node-syntax-error
 function LeakError (opts, src, file) {
   Error.call(this);
     
@@ -36,9 +36,8 @@ function throwError(start, name, src, file) {
     line: start.line
     , column: start.column
     , variable: name
-  }
-  var err = new LeakError(opts, src, file);
-  throw err;
+  };
+  throw new LeakError(opts, src, file);
 }
 
 function check(src, file) {
@@ -52,47 +51,52 @@ function check(src, file) {
     });
   }
 
+  function collectDeclarations(node) {
+    var added = 0;
+
+    if (node.id && node.id.name) {
+      added++;
+      declared.push(node.id.name);
+      // deal with 'var a = function b() {}' where only 'a' should be defined as a variable
+      if (node.init && node.init.type === 'FunctionExpression') {
+        return added + collectDeclarations(node.init.body);
+      }
+    }
+
+    if (node.type === 'FunctionExpression' || node.type === 'FunctionDeclaration') {
+      return 0;
+    }
+
+    Object.keys(node).forEach(function(key) {
+      var child = node[key];
+      if (Array.isArray(child) || child && child.type) {
+        added += collectDeclarations(child);
+      }
+    });
+    return added;
+  }
+
   function walk(node) {
-    if (Array.isArray(node.body)) {
-      var added = 0;
-      node.body.forEach(function(child) {
+    var name;
 
-        if (child.type === 'VariableDeclaration') {
-          child.declarations.map(function(obj) {
-            declared.push(obj.id.name);
-            added++;
-          });
-          return;
-        }
-
-        if (child.type === 'FunctionDeclaration') {
-            var id = child.id.name;
-            added += 1;
-            declared.push(id);
-        }
-      });
-
-      node.body.forEach(walk);
-
+    if (node.type === 'FunctionExpression') {
+      var added = collectDeclarations(node.body);
+      walk(node.body);
       declared.length = declared.length - added;
       return;
     }
 
-    if (node.type === 'AssignmentExpression') {
-      if (node.left && node.left.name) {
-        var name = node.left.name;
-        if (declared.indexOf(name) === -1) {
-          throwError(node.loc.start, name, src, file)
-        }
+    if (node.type === 'AssignmentExpression' && node.left && node.left.name) {
+      name = node.left.name;
+      if (declared.indexOf(name) === -1) {
+        throwError(node.loc.start, name, src, file);
       }
     }
 
-    if (node.type === 'UpdateExpression') {
-      if (node.argument && node.argument.name) {
-        var name = node.argument.name;
-        if (declared.indexOf(name) === -1) {
-          throwError(node.loc.start, name, src, file)
-        }
+    if (node.type === 'UpdateExpression' && node.argument && node.argument.name) {
+      name = node.argument.name;
+      if (declared.indexOf(name) === -1) {
+        throwError(node.loc.start, name, src, file);
       }
     }
 
@@ -113,6 +117,7 @@ function check(src, file) {
     if (e instanceof LeakError) {
       return e;
     }
+
     throw e;
   }
 }

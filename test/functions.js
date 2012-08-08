@@ -2,7 +2,7 @@ var leaky = require('../leaky');
 
 var test = require("tap").test;
 
-test('leaking function variables n', function(t) {
+test('functions #1', function(t) {
   var source = '(' + function() {
     a = 123;
     function a() {
@@ -10,33 +10,42 @@ test('leaking function variables n', function(t) {
   } + ')';
   var err = leaky(source);
   t.equal(err, undefined);
+  t.end();
+});
 
-  source = '(' + function() {
+test('functions #2', function(t) {
+  var source = '(' + function() {
     var a;
     function foo() {
       a = 123;
     }
   } + ')';
-  err = leaky(source);
+  var err = leaky(source);
   t.equal(err, undefined);
+  t.end();
+});
 
-  source = '(' + function() {
+test('functions #3', function(t) {
+  var source = '(' + function() {
     var b = function a() {
     }
     a = 123;
   } + ')';
-  err = leaky(source);
+  var err = leaky(source);
   t.ok(err instanceof leaky.LeakError, 'err should be a LeakError');
   t.equal(err.line, 4);
   t.equal(err.column, 4);
+  t.end();
+});
 
-  source = '(' + function() {
+test('functions #4', function(t) {
+  var source = '(' + function() {
     function a() {
       var b;
     }
     b = 123;
   } + ')';
-  err = leaky(source);
+  var err = leaky(source);
   t.ok(err instanceof leaky.LeakError, 'err should be a LeakError');
   t.equal(err.line, 5);
   t.equal(err.column, 4);
