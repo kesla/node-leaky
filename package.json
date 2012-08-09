@@ -3,9 +3,6 @@
   "version": "0.0.1",
   "description": "Error when a variable leak to the global scope",
   "main": "leaky.js",
-  "scripts": {
-    "test": "node test/all.js"
-  },
   "keywords": [
     "leak"
   ],
