@@ -60,3 +60,23 @@ test('functions #5', function(t) {
   t.equal(err, undefined);
   t.end();
 });
+
+test('functions #6', function(t) {
+  var source = function foozie(foo) {
+    a = 'b';
+  }.toString();
+  var err = leaky(source);
+  t.ok(err instanceof leaky.LeakError, 'err should be a LeakError');
+  t.equal(err.line, 2);
+  t.equal(err.column, 4);
+  t.end();
+});
+
+test('functions #7', function(t) {
+  var source = function foozie(foo) {
+    foo = 'bar';
+  }.toString();
+  var err = leaky(source);
+  t.equal(err, undefined);
+  t.end();
+});

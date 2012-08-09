@@ -44,6 +44,7 @@ function check(src, file) {
   var obj = esprima.parse(src, {loc: true});
 
   var declared = [];
+  var globals = Object.keys(global).concat(['errno', 'exports', 'module']);
 
   function getIds(node) {
     return node.declarations.map(function(child) {
@@ -87,9 +88,9 @@ function check(src, file) {
   function walk(node) {
     var name;
 
-    if (node.type === 'FunctionExpression' || node.type === 'Program') {
+    if (node.type === 'FunctionDeclaration' || node.type === 'FunctionExpression' || node.type === 'Program') {
       var added = collectDeclarations(node.body);
-      if (node.type === 'FunctionExpression') {
+      if (node.type === 'FunctionExpression' || node.type === 'FunctionDeclaration') {
         added += collectParams(node);
       }
       walk(node.body);
@@ -99,7 +100,7 @@ function check(src, file) {
 
     if (node.type === 'AssignmentExpression' && node.left && node.left.name) {
       name = node.left.name;
-      if (declared.indexOf(name) === -1) {
+      if (declared.indexOf(name) === -1 && globals.indexOf(name) === -1) {
         throwError(node.loc.start, name, src, file);
       }
     }
