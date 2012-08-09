@@ -79,7 +79,7 @@ function check(src, file) {
   function walk(node) {
     var name;
 
-    if (node.type === 'FunctionExpression') {
+    if (node.type === 'FunctionExpression' || node.type === 'Program') {
       var added = collectDeclarations(node.body);
       walk(node.body);
       declared.length = declared.length - added;
