@@ -93,13 +93,6 @@ function check(src, file) {
       }
     }
 
-    if (node.type === 'UpdateExpression' && node.argument && node.argument.name) {
-      name = node.argument.name;
-      if (declared.indexOf(name) === -1) {
-        throwError(node.loc.start, name, src, file);
-      }
-    }
-
     Object.keys(node).forEach(function(key) {
       var child = node[key];
       if (Array.isArray(child)) {
