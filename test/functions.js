@@ -49,6 +49,14 @@ test('functions #4', function(t) {
   t.ok(err instanceof leaky.LeakError, 'err should be a LeakError');
   t.equal(err.line, 5);
   t.equal(err.column, 4);
+  t.end();
+});
 
+test('functions #5', function(t) {
+  var source = '(' + function(foo) {
+    foo = 'bar';
+  } + ')';
+  var err = leaky(source);
+  t.equal(err, undefined);
   t.end();
 });

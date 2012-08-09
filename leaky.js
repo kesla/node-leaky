@@ -76,11 +76,22 @@ function check(src, file) {
     return added;
   }
 
+  function collectParams(node) {
+    var params = node.params.map(function(param) {
+      return param.name;
+    })
+    declared = declared.concat(params);
+    return params.length;
+  }
+
   function walk(node) {
     var name;
 
     if (node.type === 'FunctionExpression' || node.type === 'Program') {
       var added = collectDeclarations(node.body);
+      if (node.type === 'FunctionExpression') {
+        added += collectParams(node);
+      }
       walk(node.body);
       declared.length = declared.length - added;
       return;
