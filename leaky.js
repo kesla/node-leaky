@@ -6,14 +6,14 @@ function LeakError (opts, src, file) {
     
   this.message = 'global leak detected: ' + opts.variable;
 
-  this.line = opts.line;
+  this.line = opts.line - 1;
   this.column = opts.column;
   
   this.annotated = '\n'
     + (file || '(anonymous file)')
     + ':' + this.line
     + '\n'
-    + src.split('\n')[this.line - 1]
+    + src.split('\n')[this.line]
     + '\n'
     + Array(this.column + 1).join(' ') + '^'
     + '\n'
@@ -41,6 +41,7 @@ function throwError(start, name, src, file) {
 }
 
 function check(src, file) {
+  src = '(function(){\n' + src + '\n})();';
   var obj = esprima.parse(src, {loc: true});
 
   var declared = [];
