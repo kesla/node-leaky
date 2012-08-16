@@ -39,3 +39,10 @@ test('hashbang', function(t) {
   t.equal(err, undefined);
   t.end();
 });
+
+test('syntax error', function(t) {
+  var source = 'if (';
+    var err = leaky(source);
+    t.ok(err instanceof SyntaxError);
+    t.end();
+});

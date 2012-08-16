@@ -15,7 +15,8 @@
     "esprima": "~1.0.0",
     "graceful-fs": "~1.1.10",
     "glob": "~3.1.12",
-    "optimist": "~0.3.4"
+    "optimist": "~0.3.4",
+    "syntax-error": "0.0.0"
   },
   "devDependencies": {
     "tap": "~0.3.0"

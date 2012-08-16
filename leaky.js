@@ -43,6 +43,12 @@ function throwError(start, name, src, file) {
 function check(src, file) {
   src = src.replace(/^#![^\n]*/, '');
   src = '(function(){\n' + src + '\n})();';
+
+  var err = syntaxError(src, file);
+  if (err) {
+    return err;
+  }
+
   var obj = esprima.parse(src, {loc: true});
 
   var declared = [];
