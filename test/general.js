@@ -32,3 +32,10 @@ test('return', function(t) {
   t.equal(err, undefined);
   t.end();
 });
+
+test('hashbang', function(t) {
+  var source = '#!/usr/bin/env node\nvar a = 123;';
+  var err = leaky(source);
+  t.equal(err, undefined);
+  t.end();
+});

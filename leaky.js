@@ -41,6 +41,7 @@ function throwError(start, name, src, file) {
 }
 
 function check(src, file) {
+  src = src.replace(/^#![^\n]*/, '');
   src = '(function(){\n' + src + '\n})();';
   var obj = esprima.parse(src, {loc: true});
 
