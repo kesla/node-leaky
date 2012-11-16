@@ -1,4 +1,5 @@
 var esprima = require('esprima');
+var syntaxError = require('syntax-error');
 
 // LeakError copied from https://github.com/substack/node-syntax-error
 function LeakError (opts, src, file) {
