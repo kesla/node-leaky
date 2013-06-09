@@ -4,12 +4,12 @@ var syntaxError = require('syntax-error');
 // LeakError copied from https://github.com/substack/node-syntax-error
 function LeakError (opts, src, file) {
   Error.call(this);
-    
+
   this.message = 'global leak detected: ' + opts.variable;
 
   this.line = opts.line - 1;
   this.column = opts.column;
-  
+
   this.annotated = '\n'
     + (file || '(anonymous file)')
     + ':' + this.line
