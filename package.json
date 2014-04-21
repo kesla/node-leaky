@@ -17,11 +17,10 @@
     "readdirp": "*",
     "event-stream": "*",
     "syntax-error": "~1.1.0",
-    "optimist": "~0.6.1",
-    "tap": "~0.4.8"
+    "optimist": "~0.6.1"
   },
   "devDependencies": {
-    "tap": "*"
+    "tap": "~0.4.8"
   },
   "repository": {
     "type": "git",
