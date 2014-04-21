@@ -37,7 +37,6 @@ stream
         var err = leaky(str, fileName);
         if (err) {
             console.log(err);
-            process.exit(1);
         }
     });
 });
