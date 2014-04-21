@@ -12,14 +12,16 @@
     "test": "test"
   },
   "dependencies": {
-    "esprima": "~1.0.0",
-    "graceful-fs": "~1.1.10",
-    "glob": "~3.1.12",
-    "optimist": "~0.3.4",
-    "syntax-error": "0.0.0"
+    "esprima": "~1.1.1",
+    "graceful-fs": "~2.0.3",
+    "readdirp": "*",
+    "event-stream": "*",
+    "syntax-error": "~1.1.0",
+    "optimist": "~0.6.1",
+    "tap": "~0.4.8"
   },
   "devDependencies": {
-    "tap": "~0.3.0"
+    "tap": "*"
   },
   "repository": {
     "type": "git",
