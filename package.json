@@ -1,6 +1,6 @@
 {
   "name": "leaky",
-  "version": "0.1.3",
+  "version": "1.0.0",
   "description": "Error when a variable leak to the global scope",
   "main": "leaky.js",
   "keywords": [
