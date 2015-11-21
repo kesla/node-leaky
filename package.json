@@ -12,21 +12,21 @@
     "test": "test"
   },
   "dependencies": {
-    "esprima": "~1.0.0",
-    "graceful-fs": "~1.1.10",
-    "glob": "~3.1.12",
-    "optimist": "~0.3.4",
-    "syntax-error": "0.0.0"
+    "esprima": "^2.7.0",
+    "glob": "^6.0.1",
+    "graceful-fs": "^4.1.2",
+    "optimist": "^0.6.1",
+    "syntax-error": "^1.1.4"
   },
   "devDependencies": {
-    "tap": "~0.3.0"
+    "tap": "^2.3.1"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/kesla/node-leaky.git"
   },
   "scripts": {
-    "test": "./node_modules/tap/bin/tap.js test/*.js"
+    "test": "tap test/*.js"
   },
   "bin": "./bin/cmd.js"
 }
